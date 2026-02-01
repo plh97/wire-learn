@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/liom-source/wire-learn/wire"
+	"github.com/plh97/wire-learn/wire"
 )
 
 func main() {

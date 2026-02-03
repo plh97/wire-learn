@@ -6,26 +6,26 @@ import (
 	"github.com/plh97/wire-learn/service"
 )
 
-var UserApiProvider = wire.NewSet(NewUserApi, service.NewUserService)
+var VideoApiProvider = wire.NewSet(NewVideoApi, service.NewVideoService)
 
-type GetUserRequest struct {
+type GetVideoRequest struct {
 	ID uint `form:"id" binding:"required"`
 }
 
-type UserApi struct {
+type VideoApi struct {
 	*service.UserService
 	*service.VideoService
 }
 
-func NewUserApi(videoService *service.VideoService, userService *service.UserService) *UserApi {
-	return &UserApi{
+func NewVideoApi(videoService *service.VideoService, userService *service.UserService) *VideoApi {
+	return &VideoApi{
 		UserService: userService,
 		VideoService: videoService,
 	}
 }
 
-func (api *UserApi) GetUser(c *gin.Context) {
-	var req GetUserRequest
+func (api *VideoApi) GetVideo(c *gin.Context) {
+	var req GetVideoRequest
 
 	err := c.ShouldBindQuery(&req)
 
@@ -36,16 +36,16 @@ func (api *UserApi) GetUser(c *gin.Context) {
 		return
 	}
 
-	user, err := api.UserService.GetUser(req.ID)
+	video, err := api.VideoService.GetVideo(req.ID)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"message": "Error getting user: " + err.Error(),
+			"message": "Error getting video: " + err.Error(),
 		})
 		return
 	}
 
 	c.JSON(200, gin.H{
-		"message": "User Router",
-		"data":    user,
+		"message": "Video Router",
+		"data":    video,
 	})
 }

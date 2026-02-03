@@ -2,6 +2,7 @@ package core
 
 import (
 	"github.com/glebarez/sqlite"
+	"github.com/google/wire"
 	"github.com/plh97/wire-learn/model"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -27,3 +28,5 @@ func NewLogger() *zap.Logger {
 	}
 	return logger
 }
+
+var CommonProd = wire.NewSet(NewDB, NewLogger)

@@ -17,11 +17,11 @@ import (
 // Injectors from wire.go:
 
 func InitWire() *gin.Engine {
-	db := core.NewDB()
 	logger := core.NewLogger()
+	db := core.NewDB()
 	userService := service.NewUserService(db, logger)
 	videoService := service.NewVideoService(db, logger)
-	userApi := api.NewUserApi(userService, videoService)
+	userApi := api.NewUserApi(logger, userService, videoService)
 	videoApi := api.NewVideoApi(userService, videoService)
 	engine := router.NewRouter(userApi, videoApi)
 	return engine

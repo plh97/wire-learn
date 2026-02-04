@@ -6,9 +6,11 @@ import (
 	"github.com/plh97/wire-learn/model"
 	"github.com/plh97/wire-learn/service"
 	"github.com/plh97/wire-learn/utils"
+	"go.uber.org/zap"
 )
 
 type UserApi struct {
+	*zap.Logger
 	*service.UserService
 	*service.VideoService
 }
@@ -19,8 +21,9 @@ type GetUserRequest struct {
 
 var NewUserApiProvider = wire.NewSet(NewUserApi)
 
-func NewUserApi(userService *service.UserService, videoService *service.VideoService) *UserApi {
+func NewUserApi(log *zap.Logger, userService *service.UserService, videoService *service.VideoService) *UserApi {
 	return &UserApi{
+		Logger:       log,
 		UserService:  userService,
 		VideoService: videoService,
 	}
@@ -33,6 +36,16 @@ func (u *UserApi) GetUser(c *gin.Context) {
 		return
 	}
 	user, err := u.UserService.GetUser(req.ID)
+	// u.Logger.Debug("GetUser called", zap.Any("user", req))
+	u.Logger.Debug("GetUser called")
+	// u.Logger.Info("GetUser called", zap.Any("user", req))
+	u.Logger.Info("GetUser called")
+	// u.Logger.Warn("GetUser called", zap.Any("user", req))
+	u.Logger.Warn("GetUser called")
+	// u.Logger.Error("GetUser called", zap.Any("request", req))
+	u.Logger.Error("GetUser called")
+	// u.Logger.Panic("GetUser called", zap.Any("request", req))
+	// u.Logger.Fatal("GetUser called", zap.Any("request", req))
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return

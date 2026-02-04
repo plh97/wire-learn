@@ -13,12 +13,12 @@ import (
 
 func InitWire() *gin.Engine {
 	wire.Build(
-		service.NewUserServiceProvider,
-		service.NewVideoServiceProvider,
 		core.CommonProvider,
 		api.NewUserApiProvider,
 		api.NewVideoApiProvider,
 		router.NewRouterProvider,
+		service.NewUserServiceProvider,
+		service.NewVideoServiceProvider,
 	)
 	return nil
 }
